@@ -15,6 +15,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,13 +91,14 @@ public class AuthenticationController {
     @PostMapping("/register")   
     @Validated
     public ResponseEntity<?> saveUser(@Valid @RequestBody User user ) {
+    	
     	phoneRepository.saveAll(user.getPhones());
         UserDetails userDetails = userDetailsService.createUserDetails(user.getName(), user.getPassword());
         String token = jwtTokenUtil.generateToken(userDetails);
-        userRepository.save(user); 
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setToken(token);
-        UserResponse userResponse = new UserResponse(user);    
         userRepository.save(user);
+        UserResponse userResponse = new UserResponse(user);
         return ResponseEntity.status(200).body(userResponse.getResponseMap());
     	
     }
