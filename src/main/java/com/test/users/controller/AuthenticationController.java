@@ -1,18 +1,13 @@
 package com.test.users.controller;
 
 
-import com.test.users.model.Phone;
-import com.test.users.model.User;
-import com.test.users.repository.PhoneRepository;
-import com.test.users.repository.UserRepository;
-import com.test.users.response.UserResponse;
-import com.test.users.service.JwtUserDetailsService;
-import com.test.users.util.JwtTokenUtil;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,24 +15,19 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
+import com.test.users.model.User;
+import com.test.users.repository.PhoneRepository;
+import com.test.users.repository.UserRepository;
+import com.test.users.response.UserResponse;
+import com.test.users.service.JwtUserDetailsService;
+import com.test.users.util.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/auth")
@@ -61,7 +51,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("user_name") String username,
+    public ResponseEntity<?> loginUser(@RequestParam("name") String username,
                                        @RequestParam("password") String password) {
         Map<String, Object> responseMap = new HashMap<>();
         try {

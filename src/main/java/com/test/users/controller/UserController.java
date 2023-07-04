@@ -24,18 +24,8 @@ public class UserController {
 		this.userRepository= userRepository;	
 	}
 
-    @GetMapping
-    public Map<String, Object> getUserName() {    	
-    	userRepository.findAll().forEach(x ->System.out.println(x.getName()));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("username", authentication.getName());
-        userMap.put("error", false);
-        return userMap;
-    }
-    
-    
-    @GetMapping("/all")
+	
+	@GetMapping("/all")
     public List<User> getAllusers(){
     	return userRepository.findAll();
     }
