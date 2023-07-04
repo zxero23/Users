@@ -11,6 +11,7 @@ import com.test.users.util.JwtTokenUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,8 +42,8 @@ import javax.validation.constraints.Email;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-
-    protected final Log logger = LogFactory.getLog(getClass());
+	
+	protected final Log logger = LogFactory.getLog(getClass());
 
     final UserRepository userRepository;
     final PhoneRepository phoneRepository;
@@ -99,7 +100,7 @@ public class AuthenticationController {
     @PostMapping("/register")   
     @Validated
     public ResponseEntity<?> saveUser(@Valid @RequestBody User user ) {
-        phoneRepository.saveAll(user.getPhones());
+    	phoneRepository.saveAll(user.getPhones());
         UserDetails userDetails = userDetailsService.createUserDetails(user.getName(), user.getPassword());
         String token = jwtTokenUtil.generateToken(userDetails);
         userRepository.save(user); 

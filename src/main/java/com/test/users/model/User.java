@@ -13,6 +13,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -31,6 +33,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+	
+	
+   
 
 	@Id
     @GeneratedValue	
@@ -48,9 +53,14 @@ public class User {
     private String email;
 	
 	
-	
+	 
 	 @Column(name = "password")
+	 
+	 @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+     message = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un dígito y un carácter especial")
      private String password;
+	 
+	 
 	 @Column(name = "token")
 	 private String token;
 	 
