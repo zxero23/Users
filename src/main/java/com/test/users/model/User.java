@@ -50,9 +50,9 @@ public class User {
 	
 	
 	 @Column(name = "password")
-    private String password;
+     private String password;
 	 @Column(name = "token")
-	    private String token;
+	 private String token;
 	 
 	 @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	 private LocalDateTime created;
@@ -67,7 +67,6 @@ public class User {
 	 
 	 @OneToMany
 	 private List<Phone> phones;
-	 
 	 
 	 
 	 

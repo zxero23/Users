@@ -5,6 +5,7 @@ import com.test.users.model.Phone;
 import com.test.users.model.User;
 import com.test.users.repository.PhoneRepository;
 import com.test.users.repository.UserRepository;
+import com.test.users.response.UserResponse;
 import com.test.users.service.JwtUserDetailsService;
 import com.test.users.util.JwtTokenUtil;
 
@@ -97,20 +98,15 @@ public class AuthenticationController {
 
     @PostMapping("/register")   
     @Validated
-    public ResponseEntity<User> saveUser(@Valid @RequestBody User user ) {
-    
-    	Map<String, Object> responseMap = new HashMap<>();                     
+    public ResponseEntity<?> saveUser(@Valid @RequestBody User user ) {
         phoneRepository.saveAll(user.getPhones());
         UserDetails userDetails = userDetailsService.createUserDetails(user.getName(), user.getPassword());
         String token = jwtTokenUtil.generateToken(userDetails);
-        userRepository.save(user);
-        responseMap.put("error", false);
-        responseMap.put("username", user.getName());
-        responseMap.put("message", "Account created successfully");
-        responseMap.put("token", token);
+        userRepository.save(user); 
         user.setToken(token);
+        UserResponse userResponse = new UserResponse(user);    
         userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return ResponseEntity.status(200).body(userResponse.getResponseMap());
     	
     }
     
