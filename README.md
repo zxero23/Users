@@ -1,6 +1,15 @@
 
 # Gestión de Usuarios
 
+
+Compilar con
+
+mvn clean install -Dmaven.test.skip=true
+
+Ejecutar 
+
+mvn spring-boot:run
+
 Swagger.
 http://localhost:8080/swagger-ui/index.html#/
 
